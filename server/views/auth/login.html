@@ -1,0 +1,19 @@
+@view('header', [ 'title' => 'Login' ])
+
+<h1 class="title">Login</h1>
+
+<form method="post">
+    <div class="field">
+        <label class="label" for="login">Username or email address</label>
+        <input class="input" type="text" id="login" name="login" autofocus required>
+    </div>
+    <div class="field">
+        <label class="label" for="password">Password</label>
+        <input class="input" type="password" id="password" name="password" required>
+    </div>
+    <div class="field">
+        <button class="button is-link" type="submit">Login</button>
+    </div>
+</form>
+
+@view('footer')

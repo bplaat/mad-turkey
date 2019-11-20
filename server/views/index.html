@@ -1,0 +1,11 @@
+@view('header', [ 'title' => 'Home' ])
+
+<div class="content">
+    @if (Auth::check()):
+        <h1 class="title">Welcome {{ Auth::user()->username }}!</h1>
+    @else:
+        <h1 class="title">Home</h1>
+    @endif
+</div>
+
+@view('footer')

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $title }} - Bastiaan van der Plaat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="navbar is-light">
+        <div class="container">
+            @if (Auth::check()):
+                <a class="navbar-item" href="/">Home</a>
+                <a class="navbar-item" href="/about">About</a>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div>{{ Auth::user()->username }}</div>
+                        <div><a href="/auth/logout">Logout</a></div>
+                    </div>
+                </div>
+            @else:
+                <a class="navbar-item" href="/">Home</a>
+                <a class="navbar-item" href="/about">About</a>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-black" href="/auth/login">Login</a>
+                            <a class="button is-link" href="/auth/register">Register</a>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+    <div class="section">
+        <div class="container">
