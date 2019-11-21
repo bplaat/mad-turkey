@@ -33,6 +33,14 @@
 
     <canvas id="light_chart" style="margin: 32px 0;"></canvas>
 
+    <h2 class="title">Outside Temperature</h2>
+
+    <canvas id="outside_temperature_chart" style="margin: 32px 0;"></canvas>
+
+    <h2 class="title">Outside Humidity</h2>
+
+    <canvas id="outside_humidity_chart" style="margin: 32px 0;"></canvas>
+
     <div class="buttons has-addons is-centered">
         <a class="button" href="/stations/{{ $station->id }}/{{ date('Y-m-d', $day - 24 * 60 * 60) }}">&laquo; &nbsp;Previous day</a>
         <a class="button" href="/stations/{{ $station->id }}/{{ date('Y-m-d') }}">Today</a>
@@ -56,6 +64,8 @@ new Chart(document.getElementById('temperature_chart').getContext('2d'), {
         labels: JSON.parse('{!! json_encode($labels, JSON_HEX_APOS) !!}'),
         datasets: [{
             label: 'Temperature (\u00B0C)',
+            backgroundColor: '#999',
+            borderColor: '#333',
             fill: false,
             data: JSON.parse('{!! json_encode($temperature_data, JSON_HEX_APOS) !!}')
         }]
@@ -74,6 +84,8 @@ new Chart(document.getElementById('humidity_chart').getContext('2d'), {
         labels: JSON.parse('{!! json_encode($labels, JSON_HEX_APOS) !!}'),
         datasets: [{
             label: 'Humidity (%)',
+            backgroundColor: '#999',
+            borderColor: '#333',
             fill: false,
             data: JSON.parse('{!! json_encode($humidity_data, JSON_HEX_APOS) !!}')
         }]
@@ -92,8 +104,50 @@ new Chart(document.getElementById('light_chart').getContext('2d'), {
         labels: JSON.parse('{!! json_encode($labels, JSON_HEX_APOS) !!}'),
         datasets: [{
             label: 'Light strength (%)',
+            backgroundColor: '#999',
+            borderColor: '#333',
             fill: false,
             data: JSON.parse('{!! json_encode($light_data, JSON_HEX_APOS) !!}')
+        }]
+    },
+    options: {
+        aspectRatio: 2.5,
+        animation: {
+            duration: 0
+        }
+    }
+});
+
+new Chart(document.getElementById('outside_temperature_chart').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: JSON.parse('{!! json_encode($outside_labels, JSON_HEX_APOS) !!}'),
+        datasets: [{
+            label: 'Outside Temperature (\u00B0C)',
+            backgroundColor: '#999',
+            borderColor: '#333',
+            fill: false,
+            data: JSON.parse('{!! json_encode($outside_temperature_data, JSON_HEX_APOS) !!}')
+        }]
+    },
+    options: {
+        aspectRatio: 2.5,
+        animation: {
+            duration: 0
+        }
+    }
+});
+
+new Chart(document.getElementById('outside_humidity_chart').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: JSON.parse('{!! json_encode($outside_labels, JSON_HEX_APOS) !!}'),
+        datasets: [{
+            label: 'Outside Humidity (%)',
+            backgroundColor: '#999',
+            borderColor: '#333',
+            fill: false,
+            data: JSON.parse('{!! json_encode($outside_humidity_data, JSON_HEX_APOS) !!}')
         }]
     },
     options: {

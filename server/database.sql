@@ -27,6 +27,14 @@ CREATE TABLE `measurements` (
     `station_id` INT UNSIGNED NOT NULL,
     `time` DATETIME NOT NULL,
     `temperature` DOUBLE NOT NULL,
-    `humidity` INT UNSIGNED NOT NULL,
-    `light` INT UNSIGNED NOT NULL
+    `humidity` DOUBLE NOT NULL,
+    `light` DOUBLE NOT NULL
+);
+
+CREATE TABLE `outside_measurements` (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `station_id` INT UNSIGNED NOT NULL,
+    `time` DATETIME NOT NULL,
+    `temperature` DOUBLE NOT NULL,
+    `humidity` DOUBLE NOT NULL
 );

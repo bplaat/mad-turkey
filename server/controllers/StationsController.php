@@ -38,11 +38,11 @@ class StationsController {
 
     public static function showByDay ($station, $day) {
         $day = strtotime($day);
+
         $labels = [];
         $temperature_data = [];
         $humidity_data = [];
         $light_data = [];
-
         $meassurements = Database::query('SELECT * FROM `measurements` WHERE `station_id` = ? AND `time` >= ? AND `time` <= ? ORDER BY `time`', $station->id, date('Y-m-d H:i:s', $day),  date('Y-m-d H:i:s', $day + 24 * 60 * 60 - 1))->fetchAll();
         foreach ($meassurements as $meassurement) {
             $labels[] = date('H:i', strtotime($meassurement->time));
@@ -51,13 +51,28 @@ class StationsController {
             $light_data[] = $meassurement->light;
         }
 
+        $outside_labels = [];
+        $outside_temperature_data = [];
+        $outside_humidity_data = [];
+        $outside_meassurements = Database::query('SELECT * FROM `outside_measurements` WHERE `station_id` = ? AND `time` >= ? AND `time` <= ? ORDER BY `time`', $station->id, date('Y-m-d H:i:s', $day),  date('Y-m-d H:i:s', $day + 24 * 60 * 60 - 1))->fetchAll();
+        foreach ($outside_meassurements as $outside_meassurement) {
+            $outside_labels[] = date('H:i', strtotime($outside_meassurement->time));
+            $outside_temperature_data[] = $outside_meassurement->temperature;
+            $outside_humidity_data[] = $outside_meassurement->humidity;
+        }
+
         echo view('stations.show', [
             'station' => $station,
             'day' => $day,
+
             'labels' => $labels,
             'temperature_data' => $temperature_data,
             'humidity_data' => $humidity_data,
-            'light_data' => $light_data
+            'light_data' => $light_data,
+
+            'outside_labels' => $outside_labels,
+            'outside_temperature_data' => $outside_temperature_data,
+            'outside_humidity_data' => $outside_humidity_data
         ]);
     }
 

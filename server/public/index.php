@@ -2,4 +2,4 @@
 
 define('ROOT', dirname(__DIR__));
 
-require ROOT . '/index.php';
+require_once ROOT . '/index.php';
