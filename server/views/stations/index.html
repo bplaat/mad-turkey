@@ -2,27 +2,35 @@
 
 <h1 class="title">Stations</h1>
 
-@foreach ($stations as $station):
-    <p><a href="/stations/{{ $station->id }}">{{ $station->name }}</a></p>
-@endforeach
+<div class="buttons">
+    @foreach ($stations as $station):
+        <a class="button" href="/stations/{{ $station->id }}">{{ $station->name }}</a></p>
+    @endforeach
+</div>
 
-<div id="map" style="width: 600px; height: 400px;"></div>
+<div id="map" style="width: 100%; height: 35vw; margin: 16px 0;"></div>
 
 @if (Auth::check()):
-    <p>
+    <div class="buttons">
         <a class="button is-link" href="/stations/create">Create station</a>
-    </p>
+    </div>
 @endif
 
 <script>
-var stations_info = JSON.parse(`{!! json_encode($stations_info) !!}`);
+var stations_info = JSON.parse('{!! json_encode($stations_info, JSON_HEX_APOS) !!}');
 var map = L.map('map').setView(stations_info[0].point, 10);
 map.attributionControl.setPrefix('');
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
 }).addTo(map);
 for (var i = 0; i < stations_info.length; i++) {
-    L.marker(stations_info[i].point).bindPopup('<a href="/stations/' + stations_info[i].id + '">' + stations_info[i].name + '</a>').addTo(map);
+    var popup_html = '<p><a href="/stations/' + stations_info[i].id + '">' + stations_info[i].name + '</a></p>';
+    if (stations_info[i].temperature != undefined) {
+        popup_html += '<p>Temperature: ' + stations_info[i].temperature + ' \u00B0C</p>' +
+            '<p>Humidity: ' + stations_info[i].humidity + ' %</p>' +
+            '<p>Light strength: ' + stations_info[i].light + ' %</p>';
+    }
+    L.marker(stations_info[i].point).bindPopup(popup_html).addTo(map);
 }
 </script>
 

@@ -1,30 +1,105 @@
-@view('header', [ 'title' => $station->name . ' - Stations', 'use_leaflet' => true ])
+@view('header', [ 'title' => $station->name . ' - Stations', 'use_leaflet' => true, 'use_chart' => true ])
 
 <h1 class="title">{{ $station->name }}</h1>
 
 @if (Auth::check()):
-    <p>Key: {{ $station->key }}</p>
-@endif
-
-<p>Location: {{ $station->lat }}, {{ $station->lng }}</p>
-
-<div id="map" style="width: 600px; height: 400px;"></div>
-
-@if (Auth::check()):
+    <p style="margin: 16px 0;"><code>{{ $station->key }}</code></p>
     <div class="buttons">
         <a class="button is-link" href="/stations/{{ $station->id }}/edit">Edit station</a>
         <a class="button is-danger" href="/stations/{{ $station->id }}/delete">Delete station</a>
     </div>
 @endif
 
+<div id="map" style="width: 100%; height: 23vw; margin: 16px 0;"></div>
+
+<div class="has-text-centered-desktop" style="margin: 32px 0;">
+    <h2 class="subtitle is-2" style="margin-bottom: 32px;">{{ date('l d F Y') }}</h2>
+
+    <div class="buttons has-addons is-centered">
+        <a class="button" href="/stations/{{ $station->id }}/{{ date('Y-m-d', $day - 24 * 60 * 60) }}">&laquo; &nbsp;Previous day</a>
+        <a class="button" href="/stations/{{ $station->id }}/{{ date('Y-m-d', $day) }}">Today</a>
+        <a class="button" href="/stations/{{ $station->id }}/{{ date('Y-m-d', $day + 24 * 60 * 60) }}">Next day&nbsp; &raquo;</a>
+    </div>
+
+    <h2 class="title">Temperature</h2>
+
+    <canvas id="temperature_chart" style="margin: 32px 0;"></canvas>
+
+    <h2 class="title">Humidity</h2>
+
+    <canvas id="humidity_chart" style="margin: 32px 0;"></canvas>
+
+    <h2 class="title">Light strength</h2>
+
+    <canvas id="light_chart" style="margin: 32px 0;"></canvas>
+
+    <div class="buttons has-addons is-centered">
+        <a class="button" href="/stations/{{ $station->id }}/{{ date('Y-m-d', $day - 24 * 60 * 60) }}">&laquo; &nbsp;Previous day</a>
+        <a class="button" href="/stations/{{ $station->id }}/{{ date('Y-m-d', $day) }}">Today</a>
+        <a class="button" href="/stations/{{ $station->id }}/{{ date('Y-m-d', $day + 24 * 60 * 60) }}">Next day&nbsp; &raquo;</a>
+    </div>
+</div>
+
 <script>
 var point = JSON.parse('[{{ $station->lat }}, {{ $station->lng }}]');
-var map = L.map('map').setView(point, 14);
+var map = L.map('map').setView(point, 15);
+map.scrollWheelZoom.disable();
 map.attributionControl.setPrefix('');
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
 }).addTo(map);
 L.marker(point).addTo(map);
+
+new Chart(document.getElementById('temperature_chart').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+            label: 'Temperature (\u00B0C)',
+            data: [0, 10, 5, 2, 20, 30, 45]
+        }]
+    },
+    options: {
+        aspectRatio: 2.5,
+        animation: {
+            duration: 0
+        }
+    }
+});
+
+new Chart(document.getElementById('humidity_chart').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+            label: 'Humidity (%)',
+            data: [0, 10, 5, 2, 20, 30, 45]
+        }]
+    },
+    options: {
+        aspectRatio: 2.5,
+        animation: {
+            duration: 0
+        }
+    }
+});
+
+new Chart(document.getElementById('light_chart').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+            label: 'Light strength (%)',
+            data: [0, 10, 5, 2, 20, 30, 45]
+        }]
+    },
+    options: {
+        aspectRatio: 2.5,
+        animation: {
+            duration: 0
+        }
+    }
+});
 </script>
 
 @view('footer')

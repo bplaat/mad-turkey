@@ -2,7 +2,7 @@
 
 class Auth {
     protected static function generateSession () {
-        $session = md5(microtime() . $_SERVER['REMOTE_ADDR']);
+        $session = md5(microtime(true) . $_SERVER['REMOTE_ADDR']);
         if (Sessions::select($session)->rowCount() == 1) {
             return static::generateSession();
         }

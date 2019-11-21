@@ -5,7 +5,7 @@ CREATE TABLE `users` (
     `password` VARCHAR(255) NOT NULL
 );
 
-INSERT INTO `users` (`username`, `email`, `password`) VALUES ('bplaat', 'bastiaan.v.d.plaat@gmail.com', '$2y$10$HmCHKlsETp21lyR86xv23uh/ElHoER6OOhGCw64O9pbjXa0.uHpxi');
+INSERT INTO `users` (`username`, `email`, `password`) VALUES ('bplaat', 'bastiaan.v.d.plaat@gmail.com', '$2y$10$Nku/64sflag3AQ1uPv5PY.bGA8V8y14biZ2RWnfRsybqYjlzxUQ9a');
 
 CREATE TABLE `sessions` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -22,7 +22,7 @@ CREATE TABLE `stations` (
     `lng` DECIMAL(11, 8) NOT NULL
 );
 
-CREATE TABLE `measurement` (
+CREATE TABLE `measurements` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `station_id` INT UNSIGNED NOT NULL,
     `time` DATETIME NOT NULL,

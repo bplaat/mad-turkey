@@ -5,7 +5,20 @@ class StationsController {
         $stations = Stations::select()->fetchAll();
         $stations_info = [];
         foreach ($stations as $station) {
-            $stations_info[] = [ 'id' => $station->id, 'name' => $station->name, 'point' => [ $station->lat, $station->lng ] ];
+            $station_info = [
+                'id' => $station->id,
+                'name' => $station->name,
+                'point' => [ $station->lat, $station->lng ]
+            ];
+
+            $last_meassurement_query = Database::query('SELECT * FROM `measurements` WHERE `station_id` = ? ORDER BY `time` DESC LIMIT 1', $station->id);
+            if ($last_meassurement_query->rowCount() == 1) {
+                $last_meassurement = $last_meassurement_query->fetch();
+                $station_info['temperature'] = $last_meassurement->temperature;
+                $station_info['humidity'] = $last_meassurement->humidity;
+                $station_info['light'] = $last_meassurement->light;
+            }
+            $stations_info[] = $station_info;
         }
         echo view('stations.index', [ 'stations' => $stations, 'stations_info' => $stations_info ]);
     }
@@ -15,13 +28,18 @@ class StationsController {
     }
 
     public static function store () {
-        Stations::insert([ 'name' => $_POST['name'], 'key' => md5(microtime() . $_SERVER['REMOTE_ADDR']), 'lat' => $_POST['lat'], 'lng' => $_POST['lng'] ]);
+        Stations::insert([ 'name' => $_POST['name'], 'key' => md5(microtime(true) . $_SERVER['REMOTE_ADDR']), 'lat' => $_POST['lat'], 'lng' => $_POST['lng'] ]);
         Router::redirect('/stations/' . Database::lastInsertId());
     }
 
     public static function show ($station) {
-        $point = [ $station->lat, $station->lng ];
-        echo view('stations.show', [ 'station' => $station, 'point' => $point ]);
+        $day = strtotime(date('Y-m-d'));
+        echo view('stations.show', [ 'station' => $station, 'day' => $day ]);
+    }
+
+    public static function showByDay ($station, $day) {
+        $day = strtotime($day);
+        echo view('stations.show', [ 'station' => $station, 'day' => $day ]);
     }
 
     public static function edit ($station) {

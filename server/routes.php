@@ -5,6 +5,7 @@ Router::get('/about', 'PagesController@about');
 
 Router::get('/stations', 'StationsController@index');
 Router::get('/stations/{Stations}', 'StationsController@show');
+Router::get('/stations/{Stations}/(.*)', 'StationsController@showByDay');
 
 Router::post('/api/send_measurement', 'ApiController@sendMeasurement');
 
