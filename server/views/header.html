@@ -23,7 +23,9 @@
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <img style="border-radius: 50%; margin-right: 8px;" src="https://www.gravatar.com/avatar/<?= md5(Auth::user()->email) ?>?s=48" alt="User gravater">
-                        <div style="margin-right: 16px;">{{ Auth::user()->username }}</div>
+                        <div>{{ Auth::user()->username }}</div>
+                    </div>
+                    <div class="navbar-item">
                         <div class="buttons">
                             <a class="button" href="/settings">Settings</a>
                             <a class="button is-link" href="/auth/register">Register</a>

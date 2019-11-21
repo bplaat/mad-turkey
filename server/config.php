@@ -6,3 +6,5 @@ define('DATABASE_PASSWORD', 'DTK95K7DyFjzCssR');
 
 define('SESSION_COOKIE_NAME', 'mad-turkey-session');
 define('SESSION_DURATION', 60 * 60 * 24 * 356);
+
+define('MEASUREMENT_INTERVAL', 60);

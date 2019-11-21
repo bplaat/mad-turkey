@@ -33,13 +33,32 @@ class StationsController {
     }
 
     public static function show ($station) {
-        $day = strtotime(date('Y-m-d'));
-        echo view('stations.show', [ 'station' => $station, 'day' => $day ]);
+        static::showByDay($station, date('Y-m-d'));
     }
 
     public static function showByDay ($station, $day) {
         $day = strtotime($day);
-        echo view('stations.show', [ 'station' => $station, 'day' => $day ]);
+        $labels = [];
+        $temperature_data = [];
+        $humidity_data = [];
+        $light_data = [];
+
+        $meassurements = Database::query('SELECT * FROM `measurements` WHERE `station_id` = ? AND `time` >= ? AND `time` <= ? ORDER BY `time`', $station->id, date('Y-m-d H:i:s', $day),  date('Y-m-d H:i:s', $day + 24 * 60 * 60 - 1))->fetchAll();
+        foreach ($meassurements as $meassurement) {
+            $labels[] = date('H:i', strtotime($meassurement->time));
+            $temperature_data[] = $meassurement->temperature;
+            $humidity_data[] = $meassurement->humidity;
+            $light_data[] = $meassurement->light;
+        }
+
+        echo view('stations.show', [
+            'station' => $station,
+            'day' => $day,
+            'labels' => $labels,
+            'temperature_data' => $temperature_data,
+            'humidity_data' => $humidity_data,
+            'light_data' => $light_data
+        ]);
     }
 
     public static function edit ($station) {
@@ -47,11 +66,16 @@ class StationsController {
     }
 
     public static function update ($station) {
-        Stations::update($station->id, [ 'name' => $_POST['name'], 'lat' => $_POST['lat'], 'lng' => $_POST['lng'] ]);
+        Stations::update($station->id, [
+            'name' => $_POST['name'],
+            'lat' => $_POST['lat'],
+            'lng' => $_POST['lng']
+        ]);
         Router::redirect('/stations/' . $station->id);
     }
 
     public static function delete ($station) {
+        Measurements::delete([ 'station_id' => $station->id ]);
         Stations::delete($station->id);
         Router::redirect('/stations');
     }

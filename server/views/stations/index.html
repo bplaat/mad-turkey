@@ -8,7 +8,7 @@
     @endforeach
 </div>
 
-<div id="map" style="width: 100%; height: 35vw; margin: 16px 0;"></div>
+<div id="map" style="width: 100%; height: 40vw; margin: 16px 0;"></div>
 
 @if (Auth::check()):
     <div class="buttons">
@@ -18,17 +18,17 @@
 
 <script>
 var stations_info = JSON.parse('{!! json_encode($stations_info, JSON_HEX_APOS) !!}');
-var map = L.map('map').setView(stations_info[0].point, 10);
+var map = L.map('map').setView(stations_info[0].point, 11);
 map.attributionControl.setPrefix('');
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
 }).addTo(map);
 for (var i = 0; i < stations_info.length; i++) {
-    var popup_html = '<p><a href="/stations/' + stations_info[i].id + '">' + stations_info[i].name + '</a></p>';
+    var popup_html = '<p style="margin: 8px 0;"><a href="/stations/' + stations_info[i].id + '">' + stations_info[i].name + '</a></p>';
     if (stations_info[i].temperature != undefined) {
-        popup_html += '<p>Temperature: ' + stations_info[i].temperature + ' \u00B0C</p>' +
-            '<p>Humidity: ' + stations_info[i].humidity + ' %</p>' +
-            '<p>Light strength: ' + stations_info[i].light + ' %</p>';
+        popup_html += '<p style="margin: 4px 0;">Temperature: ' + stations_info[i].temperature + ' \u00B0C</p>' +
+            '<p style="margin: 4px 0;">Humidity: ' + stations_info[i].humidity + ' %</p>' +
+            '<p style="margin: 4px 0;">Light strength: ' + stations_info[i].light + ' %</p>';
     }
     L.marker(stations_info[i].point).bindPopup(popup_html).addTo(map);
 }

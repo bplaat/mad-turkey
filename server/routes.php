@@ -5,7 +5,6 @@ Router::get('/about', 'PagesController@about');
 
 Router::get('/stations', 'StationsController@index');
 Router::get('/stations/{Stations}', 'StationsController@show');
-Router::get('/stations/{Stations}/(.*)', 'StationsController@showByDay');
 
 Router::post('/api/send_measurement', 'ApiController@sendMeasurement');
 
@@ -29,5 +28,7 @@ if (Auth::check()) {
     Router::get('/auth/login', 'AuthController@showLoginForm');
     Router::post('/auth/login', 'AuthController@login');
 }
+
+Router::get('/stations/{Stations}/(.*)', 'StationsController@showByDay');
 
 Router::fallback('PagesController@notFound');
