@@ -28,7 +28,12 @@ class StationsController {
     }
 
     public static function store () {
-        Stations::insert([ 'name' => $_POST['name'], 'key' => md5(microtime(true) . $_SERVER['REMOTE_ADDR']), 'lat' => $_POST['lat'], 'lng' => $_POST['lng'] ]);
+        Stations::insert([
+            'name' => $_POST['name'],
+            'key' => md5(microtime(true) . $_SERVER['REMOTE_ADDR']),
+            'lat' => $_POST['lat'],
+            'lng' => $_POST['lng']
+        ]);
         Router::redirect('/stations/' . Database::lastInsertId());
     }
 
@@ -90,6 +95,7 @@ class StationsController {
     }
 
     public static function delete ($station) {
+        Events::delete([ 'station_id' => $station->id ]);
         Measurements::delete([ 'station_id' => $station->id ]);
         Stations::delete($station->id);
         Router::redirect('/stations');

@@ -16,6 +16,14 @@ if (Auth::check()) {
     Router::post('/stations/{Stations}', 'StationsController@update');
     Router::get('/stations/{Stations}/delete', 'StationsController@delete');
 
+    Router::get('/events', 'EventsController@index');
+    Router::get('/events/{Events}', 'EventsController@show');
+    Router::get('/events/create', 'EventsController@create');
+    Router::post('/events', 'EventsController@store');
+    Router::get('/events/{Events}/edit', 'EventsController@edit');
+    Router::post('/events/{Events}', 'EventsController@update');
+    Router::get('/events/{Events}/delete', 'EventsController@delete');
+
     Router::get('/settings', 'SettingsController::showSettingsForm');
     Router::post('/settings/change_details', 'SettingsController::changeDetails');
     Router::post('/settings/change_password', 'SettingsController::changePassword');

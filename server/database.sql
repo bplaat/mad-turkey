@@ -38,3 +38,13 @@ CREATE TABLE `outside_measurements` (
     `temperature` DOUBLE NOT NULL,
     `humidity` DOUBLE NOT NULL
 );
+
+CREATE TABLE `events` (
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(191) UNIQUE NOT NULL,
+    `station_id` INT UNSIGNED NOT NULL,
+    `trigger` TEXT NOT NULL,
+    `frequency` INT UNSIGNED NOT NULL,
+    `duration` INT UNSIGNED NOT NULL,
+    `active` BOOLEAN NOT NULL
+);

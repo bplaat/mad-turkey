@@ -1,0 +1,15 @@
+@view('header', [ 'title' => 'Events' ])
+
+<h1 class="title">Events</h1>
+
+@foreach ($events as $event):
+    <p style="margin: 16px 0;"><a href="/events/{{ $event->id }}">{{ $event->name }}</a></p>
+@endforeach
+
+@if (Auth::check()):
+    <div class="buttons" style="margin: 24px 0;">
+        <a class="button is-link" href="/events/create">Create event</a>
+    </div>
+@endif
+
+@view('footer')

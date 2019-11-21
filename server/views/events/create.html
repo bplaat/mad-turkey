@@ -1,0 +1,42 @@
+@view('header', [ 'title' => 'Create a new event - Events' ])
+
+<h1 class="title">Create a new event</h1>
+
+<form method="post" action="/events">
+    <div class="field">
+        <label class="label" for="name">Name</label>
+        <input class="input" type="text" id="name" name="name" autofocus required>
+    </div>
+    <div class="field">
+        <label class="label" for="station_id">Station</label>
+        <select class="input" id="station_id" name="station_id" required>
+            @foreach ($stations as $station):
+                <option value="{{ $station->id }}">{{ $station->name }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="field">
+        <label class="label" for="trigger">Trigger (code)</label>
+        <textarea class="textarea" style="font-family: monospace; resize: none;" id="trigger" name="trigger" required></textarea>
+    </div>
+    <div class="field">
+        <label class="label" for="type">Type</label>
+        <select class="input" id="type" name="type" required>
+            <option value="0">LED</option>
+            <option value="1">Beeper</option>
+        </select>
+    </div>
+    <div class="field">
+        <label class="label" for="frequency">Frequency (Beeper only)</label>
+        <input class="input" type="text" id="frequency" name="frequency" required>
+    </div>
+    <div class="field">
+        <label class="label" for="duration">Duration</label>
+        <input class="input" type="text" id="duration" name="duration" required>
+    </div>
+    <div class="field">
+        <button class="button is-link" type="submit">Create a new event</button>
+    </div>
+</form>
+
+@view('footer')

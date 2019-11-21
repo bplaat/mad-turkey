@@ -1,0 +1,12 @@
+@view('header', [ 'title' => $event->name . ' - Events' ])
+
+<h1 class="title">{{ $event->name }}</h1>
+
+@if (Auth::check()):
+    <div class="buttons" style="margin: 16px 0;">
+        <a class="button is-link" href="/events/{{ $event->id }}/edit">Edit event</a>
+        <a class="button is-danger" href="/events/{{ $event->id }}/delete">Delete event</a>
+    </div>
+@endif
+
+@view('footer')
