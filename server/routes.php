@@ -6,7 +6,7 @@ Router::get('/about', 'PagesController@about');
 Router::get('/stations', 'StationsController@index');
 Router::get('/stations/{Stations}', 'StationsController@show');
 
-Router::get('/api/send_measurement', 'ApiController@sendMeasurement');
+Router::post('/api/send_measurement', 'ApiController@sendMeasurement');
 
 if (Auth::check()) {
     Router::get('/stations/create', 'StationsController@create');

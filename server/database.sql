@@ -28,6 +28,5 @@ CREATE TABLE `measurement` (
     `time` DATETIME NOT NULL,
     `temperature` DOUBLE NOT NULL,
     `humidity` DOUBLE NOT NULL,
-    `pressure` DOUBLE NOT NULL,
     `light` DOUBLE NOT NULL
 );
