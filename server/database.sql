@@ -44,6 +44,7 @@ CREATE TABLE `events` (
     `name` VARCHAR(191) UNIQUE NOT NULL,
     `station_id` INT UNSIGNED NOT NULL,
     `trigger` TEXT NOT NULL,
+    `type` INT UNSIGNED NOT NULL,
     `frequency` INT UNSIGNED NOT NULL,
     `duration` INT UNSIGNED NOT NULL,
     `active` BOOLEAN NOT NULL

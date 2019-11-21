@@ -16,6 +16,7 @@ class EventsController {
             'name' => $_POST['name'],
             'station_id' => $_POST['station_id'],
             'trigger' => $_POST['trigger'],
+            'type' => $_POST['type'],
             'frequency' => $_POST['frequency'],
             'duration' => $_POST['duration'],
             'active' => false
@@ -37,6 +38,7 @@ class EventsController {
             'name' => $_POST['name'],
             'station_id' => $_POST['station_id'],
             'trigger' => $_POST['trigger'],
+            'type' => $_POST['type'],
             'frequency' => $_POST['frequency'],
             'duration' => $_POST['duration'],
             'active' => false

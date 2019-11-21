@@ -21,9 +21,9 @@
     </div>
     <div class="field">
         <label class="label" for="type">Type</label>
-        <select class="input" id="type" name="type" value="{{ $event->type }}" required>
-            <option value="0">LED</option>
-            <option value="1">Beeper</option>
+        <select class="input" id="type" name="type" required>
+            <option value="0" {{ $event->type == 0 ? 'selected' : '' }}>LED</option>
+            <option value="1" {{ $event->type == 1 ? 'selected' : '' }}>Beeper</option>
         </select>
     </div>
     <div class="field">
