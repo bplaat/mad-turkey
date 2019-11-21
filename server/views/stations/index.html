@@ -1,4 +1,4 @@
-@view('header', [ 'title' => 'Stations' ])
+@view('header', [ 'title' => 'Stations', 'use_leaflet' => true ])
 
 <h1 class="title">Stations</h1>
 
@@ -6,11 +6,24 @@
     <p><a href="/stations/{{ $station->id }}">{{ $station->name }}</a></p>
 @endforeach
 
+<div id="map" style="width: 600px; height: 400px;"></div>
 
 @if (Auth::check()):
     <p>
         <a class="button is-link" href="/stations/create">Create station</a>
     </p>
 @endif
+
+<script>
+var stations_info = JSON.parse(`{!! json_encode($stations_info) !!}`);
+var map = L.map('map').setView(stations_info[0].point, 10);
+map.attributionControl.setPrefix('');
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
+}).addTo(map);
+for (var i = 0; i < stations_info.length; i++) {
+    L.marker(stations_info[i].point).bindPopup('<a href="/stations/' + stations_info[i].id + '">' + stations_info[i].name + '</a>').addTo(map);
+}
+</script>
 
 @view('footer')

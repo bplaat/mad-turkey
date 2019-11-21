@@ -15,6 +15,12 @@ if (Auth::check()) {
     Router::post('/stations/{Stations}', 'StationsController@update');
     Router::get('/stations/{Stations}/delete', 'StationsController@delete');
 
+    Router::get('/settings', 'SettingsController::showSettingsForm');
+    Router::post('/settings/change_details', 'SettingsController::changeDetails');
+    Router::post('/settings/change_password', 'SettingsController::changePassword');
+    Router::get('/settings/revoke_session/{Sessions}', 'SettingsController::revokeSession');
+    Router::get('/settings/delete', 'SettingsController::deleteAccount');
+
     Router::get('/auth/register', 'AuthController@showRegisterForm');
     Router::post('/auth/register', 'AuthController@register');
     Router::get('/auth/logout', 'AuthController@logout');

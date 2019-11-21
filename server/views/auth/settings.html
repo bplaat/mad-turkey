@@ -1,0 +1,59 @@
+@view('header', [ 'title' => 'Settings' ])
+
+<h1 class="title">Settings</h1>
+
+<form class="box" method="post" action="/settings/change_details">
+    <h2 class="title is-4">Change user details</h2>
+    <div class="field">
+        <label class="label" for="username">Username</label>
+        <input class="input" type="text" id="username" name="username" value="{{ Auth::user()->username }}" required>
+    </div>
+    <div class="field">
+        <label class="label" for="email">Email address</label>
+        <input class="input" type="email" id="email" name="email" value="{{ Auth::user()->email }}" required>
+    </div>
+    <div class="field">
+        <button class="button is-link" type="submit">Save</button>
+    </div>
+</form>
+
+<form class="box" method="post" action="/settings/change_password">
+    <h2 class="title is-4">Change password</h2>
+    <div class="field">
+        <label class="label" for="old_password">Old password</label>
+        <input class="input" type="password" id="old_password" name="old_password" required>
+    </div>
+    <div class="field">
+        <label class="label" for="new_password">New password</label>
+        <input class="input" type="password" id="new_password" name="new_password" required>
+    </div>
+    <div class="field">
+        <label class="label" for="confirm_new_password">Confirm new password</label>
+        <input class="input" type="password" id="confirm_new_password" name="confirm_new_password" required>
+    </div>
+    <div class="field">
+        <button class="button is-link" type="submit">Save</button>
+    </div>
+</form>
+
+<div class="box">
+    <h2 class="title is-4">Sessions</h2>
+    @foreach ($sessions as $session):
+        <div class="box">
+            <h1 class="title is-5">
+                <code>{{ $session->session }}</code>
+                @if ($session->session == $_COOKIE[SESSION_COOKIE_NAME]):
+                    <div class="tag is-link">Current session</div>
+                @endif
+            </h1>
+            <p><a class="button is-danger" href="/settings/revoke_session/{{ $session->session }}">Delete session</a></p>
+        </div>
+    @endforeach
+</div>
+
+<div class="box">
+    <h2 class="title is-4">Delete account</h2>
+    <p><a class="button is-danger" href="/settings/delete">Delete account</a></p>
+</div>
+
+@view('footer')

@@ -1,4 +1,4 @@
-@view('header', [ 'title' => $station->name . ' - Stations' ])
+@view('header', [ 'title' => $station->name . ' - Stations', 'use_leaflet' => true ])
 
 <h1 class="title">{{ $station->name }}</h1>
 
@@ -6,7 +6,9 @@
     <p>Key: {{ $station->key }}</p>
 @endif
 
-<p>{{ $station->lat }}, {{ $station->lng }}</p>
+<p>Location: {{ $station->lat }}, {{ $station->lng }}</p>
+
+<div id="map" style="width: 600px; height: 400px;"></div>
 
 @if (Auth::check()):
     <div class="buttons">
@@ -14,5 +16,15 @@
         <a class="button is-danger" href="/stations/{{ $station->id }}/delete">Delete station</a>
     </div>
 @endif
+
+<script>
+var point = JSON.parse('[{{ $station->lat }}, {{ $station->lng }}]');
+var map = L.map('map').setView(point, 14);
+map.attributionControl.setPrefix('');
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
+}).addTo(map);
+L.marker(point).addTo(map);
+</script>
 
 @view('footer')

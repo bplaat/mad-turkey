@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title }} - Bastiaan van der Plaat</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
-    <link rel="stylesheet" href="/style.css">
+    @if (isset($use_leaflet)):
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js"></script>
+    @endif
 </head>
 <body>
     <div class="navbar is-light">
@@ -18,7 +21,7 @@
                     <div class="navbar-item">
                         <div style="margin-right: 16px;">{{ Auth::user()->username }}</div>
                         <div class="buttons">
-                            <a class="button" href="#">Settings</a>
+                            <a class="button" href="/settings">Settings</a>
                             <a class="button is-link" href="/auth/register">Register</a>
                             <a class="button is-black" href="/auth/logout">Logout</a>
                         </div>
