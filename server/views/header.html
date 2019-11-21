@@ -13,20 +13,25 @@
             @if (Auth::check()):
                 <a class="navbar-item" href="/">Home</a>
                 <a class="navbar-item" href="/about">About</a>
+                <a class="navbar-item" href="/stations">Stations</a>
                 <div class="navbar-end">
                     <div class="navbar-item">
-                        <div>{{ Auth::user()->username }}</div>
-                        <div><a href="/auth/logout">Logout</a></div>
+                        <div style="margin-right: 16px;">{{ Auth::user()->username }}</div>
+                        <div class="buttons">
+                            <a class="button" href="#">Settings</a>
+                            <a class="button is-link" href="/auth/register">Register</a>
+                            <a class="button is-black" href="/auth/logout">Logout</a>
+                        </div>
                     </div>
                 </div>
             @else:
                 <a class="navbar-item" href="/">Home</a>
                 <a class="navbar-item" href="/about">About</a>
+                <a class="navbar-item" href="/stations">Stations</a>
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="buttons">
-                            <a class="button is-black" href="/auth/login">Login</a>
-                            <a class="button is-link" href="/auth/register">Register</a>
+                            <a class="button is-link" href="/auth/login">Login</a>
                         </div>
                     </div>
                 </div>

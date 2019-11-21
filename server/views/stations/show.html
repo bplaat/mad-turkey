@@ -1,0 +1,18 @@
+@view('header', [ 'title' => $station->name . ' - Stations' ])
+
+<h1 class="title">{{ $station->name }}</h1>
+
+@if (Auth::check()):
+    <p>Key: {{ $station->key }}</p>
+@endif
+
+<p>{{ $station->lat }}, {{ $station->lng }}</p>
+
+@if (Auth::check()):
+    <div class="buttons">
+        <a class="button is-link" href="/stations/{{ $station->id }}/edit">Edit station</a>
+        <a class="button is-danger" href="/stations/{{ $station->id }}/delete">Delete station</a>
+    </div>
+@endif
+
+@view('footer')

@@ -1,0 +1,27 @@
+@view('header', [ 'title' => 'Edit - ' . $station->name . ' - Stations' ])
+
+<h1 class="title">Edit {{ $station->name }}</h1>
+
+<form method="post" action="/stations/{{ $station->id }}">
+    <div class="field">
+        <label class="label" for="name">Name</label>
+        <input class="input" type="text" id="name" name="name" value="{{ $station->name }}" autofocus required>
+    </div>
+    <div class="field">
+        <label class="label" for="key">Key</label>
+        <input class="input" type="text" id="key" name="key" value="{{ $station->key }}" disabled required>
+    </div>
+    <div class="field">
+        <label class="label" for="lat">Latitude</label>
+        <input class="input" type="number" id="lat" name="lat" value="{{ $station->lat }}" required>
+    </div>
+    <div class="field">
+        <label class="label" for="lng">Longitude</label>
+        <input class="input" type="number" id="lng" name="lng" value="{{ $station->lng }}" required>
+    </div>
+    <div class="field">
+        <button class="button is-link" type="submit">Edit station</button>
+    </div>
+</form>
+
+@view('footer')

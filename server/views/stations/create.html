@@ -1,0 +1,23 @@
+@view('header', [ 'title' => 'Create a new station - Stations' ])
+
+<h1 class="title">Create a new station</h1>
+
+<form method="post" action="/stations">
+    <div class="field">
+        <label class="label" for="name">Name</label>
+        <input class="input" type="text" id="name" name="name" autofocus required>
+    </div>
+    <div class="field">
+        <label class="label" for="lat">Latitude</label>
+        <input class="input" type="number" id="lat" name="lat" required>
+    </div>
+    <div class="field">
+        <label class="label" for="lng">Longitude</label>
+        <input class="input" type="number" id="lng" name="lng" required>
+    </div>
+    <div class="field">
+        <button class="button is-link" type="submit">Create station</button>
+    </div>
+</form>
+
+@view('footer')

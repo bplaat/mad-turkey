@@ -1,0 +1,16 @@
+@view('header', [ 'title' => 'Stations' ])
+
+<h1 class="title">Stations</h1>
+
+@foreach ($stations as $station):
+    <p><a href="/stations/{{ $station->id }}">{{ $station->name }}</a></p>
+@endforeach
+
+
+@if (Auth::check()):
+    <p>
+        <a class="button is-link" href="/stations/create">Create station</a>
+    </p>
+@endif
+
+@view('footer')
