@@ -51,7 +51,7 @@ void sendData()
     float temperature = dht.readTemperature();
 
     HTTPClient http;
-    String urlToAPI = "https://bad-turkeys/aaaaa?apiKey=" + apiKey + "&temperature=" + String(temperature) + "&humidity=" + String(humidity) + "&light=" + String(lightStrength);
+    String urlToAPI = "https://mad-turkey.ml/api/send_measurement?key=" + apiKey + "&temperature=" + String(temperature) + "&humidity=" + String(humidity) + "&light=" + String(lightStrength);
     //String urlToAPI = "http://arduino.esp8266.com/stable/package_esp8266com_index.json";
     Serial.println(urlToAPI);
 
