@@ -1,7 +1,6 @@
 <?php
 
 Router::get('/', 'PagesController@index');
-Router::get('/about', 'PagesController@about');
 
 Router::get('/stations', 'StationsController@index');
 Router::get('/stations/{Stations}', 'StationsController@show');

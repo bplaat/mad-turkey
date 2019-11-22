@@ -1,14 +1,23 @@
-</div>
-</div>
-<div class="footer">
-    <div class="content has-text-centered">
-        <p>
-            <code>{{ round((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']) * 1000, 1) }} ms - {{ Database::queryCount() }} queries</code>
-        </p>
-        <p>
-            Made by <a href="https://bastiaan.ml/" target="_blank">Bastiaan van der Plaat</a> - Source code: <a href="https://github.com/bplaat/mad-turkey" target="_blank">GitHub</a>
-        </p>
+        </div>
     </div>
-</div>
+    <div class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <code>{{ round((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']) * 1000, 1) }} ms - {{ Database::queryCount() }} queries</code>
+            </p>
+            <p>Made by <a href="https://bastiaan.ml/" target="_blank">Bastiaan van der Plaat</a>, Jaco de Jong and Rowdey Goos</p>
+            <p>For the source code go to <a href="https://github.com/bplaat/mad-turkey" target="_blank">GitHub</a></p>
+        </div>
+    </div>
+
+    <script>
+        var navbar_menu = document.getElementById('navbar-menu');
+        var navbar_burger = document.getElementById('navbar-burger');
+        navbar_burger.addEventListener('click', function (event) {
+            event.preventDefault();
+            navbar_menu.classList.toggle('is-active');
+            navbar_burger.classList.toggle('is-active');
+        }, false);
+    </script>
 </body>
 </html>

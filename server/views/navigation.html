@@ -1,0 +1,43 @@
+<div class="navbar is-light">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">Mad Turkey</a>
+            <a id="navbar-burger" class="navbar-burger burger">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbar-menu" class="navbar-menu">
+            @if (Auth::check()):
+                <div class="navbar-start">
+                    <a class="navbar-item" href="/stations">Stations</a>
+                    <a class="navbar-item" href="/events">Events</a>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item" style="display: flex; align-items: center;">
+                        <img style="border-radius: 50%; margin-right: 12px;" src="https://www.gravatar.com/avatar/<?= md5(Auth::user()->email) ?>?s=48" alt="User gravater">
+                        <span>{{ Auth::user()->username }}</span>
+                    </div>
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button" href="/settings">Settings</a>
+                            <a class="button is-link" href="/auth/register">Register</a>
+                            <a class="button is-black" href="/auth/logout">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            @else:
+                <div class="navbar-start">
+                    <a class="navbar-item" href="/stations">Stations</a>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <a class="button is-link" href="/auth/login">Login</a>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+</div>
