@@ -16,8 +16,8 @@
         </select>
     </div>
     <div class="field">
-        <label class="label" for="trigger">Trigger (code)</label>
-        <textarea class="textarea" style="font-family: monospace; resize: none;" id="trigger" name="trigger" required></textarea>
+        <label class="label" for="trigger">Trigger PHP code (please don't cross command or site!!!</label>
+        <textarea class="textarea" style="font-family: monospace; resize: none;" id="trigger" name="trigger" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required></textarea>
     </div>
     <div class="field">
         <label class="label" for="type">Type</label>
@@ -27,11 +27,11 @@
         </select>
     </div>
     <div class="field">
-        <label class="label" for="frequency">Frequency (Beeper only)</label>
+        <label class="label" for="frequency">Frequency (Hz) (beeper only otherwise zero)</label>
         <input class="input" type="text" id="frequency" name="frequency" required>
     </div>
     <div class="field">
-        <label class="label" for="duration">Duration</label>
+        <label class="label" for="duration">Duration (ms)</label>
         <input class="input" type="text" id="duration" name="duration" required>
     </div>
     <div class="field">

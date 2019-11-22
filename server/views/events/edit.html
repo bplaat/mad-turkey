@@ -9,15 +9,15 @@
     </div>
     <div class="field">
         <label class="label" for="station_id">Station</label>
-        <select class="input" id="station_id" name="station_id" value="{{ $event->station }}" required>
+        <select class="input" id="station_id" name="station_id" required>
             @foreach ($stations as $station):
-                <option value="{{ $station->id }}">{{ $station->name }}</option>
+                <option value="{{ $station->id }}" {{ $event->station_id == $station->id ? 'selected' : '' }}>{{ $station->name }}</option>
             @endforeach
         </select>
     </div>
     <div class="field">
-        <label class="label" for="trigger">Trigger (code)</label>
-        <textarea class="textarea" style="font-family: monospace; resize: none;" id="trigger" name="trigger" required>{{ $event->trigger }}</textarea>
+        <label class="label" for="trigger">Trigger PHP code (please don't cross command or site!!!</label>
+        <textarea class="textarea" style="font-family: monospace; resize: none;" id="trigger" name="trigger" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>{{ $event->trigger }}</textarea>
     </div>
     <div class="field">
         <label class="label" for="type">Type</label>
@@ -27,11 +27,11 @@
         </select>
     </div>
     <div class="field">
-        <label class="label" for="frequency">Frequency (Beeper only)</label>
+        <label class="label" for="frequency">Frequency (Hz) (beeper only otherwise zero)</label>
         <input class="input" type="text" id="frequency" name="frequency" value="{{ $event->frequency }}" required>
     </div>
     <div class="field">
-        <label class="label" for="duration">Duration</label>
+        <label class="label" for="duration">Duration (ms)</label>
         <input class="input" type="text" id="duration" name="duration" value="{{ $event->duration }}" required>
     </div>
     <div class="field">

@@ -2,12 +2,24 @@
 
 <h1 class="title">Events</h1>
 
-@foreach ($events as $event):
-    <p style="margin: 16px 0;"><a href="/events/{{ $event->id }}">{{ $event->name }}</a></p>
-@endforeach
+<div class="columns is-multiline">
+    @foreach ($events as $event):
+        <div class="column is-one-third">
+            <div class="box" style="height: 100%">
+                <h2 class="title is-4">
+                    <a href="/events/{{ $event->id }}">{{ $event->name }}</a>
+                    @if ($event->active):
+                        <span class="tag is-pulled-right is-success">ACTIVE</span>
+                    @endif
+                </h2>
+                <pre style="white-space: pre-wrap;">{{ $event->trigger }}</pre>
+            </div>
+        </div>
+    @endforeach
+</div>
 
 @if (Auth::check()):
-    <div class="buttons" style="margin: 24px 0;">
+    <div class="buttons">
         <a class="button is-link" href="/events/create">Create event</a>
     </div>
 @endif

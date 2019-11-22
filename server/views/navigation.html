@@ -1,19 +1,30 @@
-<div class="navbar is-light">
+<div class="navbar is-light is-fixed-top" style="z-index: 999999;">
     <div class="container">
         <div class="navbar-brand">
             <a class="navbar-item" href="/">Mad Turkey</a>
-            <a id="navbar-burger" class="navbar-burger burger">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
+            <a id="navbar-burger" class="navbar-burger burger"><span></span><span></span><span></span></a>
         </div>
-
         <div id="navbar-menu" class="navbar-menu">
             @if (Auth::check()):
                 <div class="navbar-start">
-                    <a class="navbar-item" href="/stations">Stations</a>
-                    <a class="navbar-item" href="/events">Events</a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link is-arrowless" href="/stations">Stations</a>
+                        <div class="navbar-dropdown">
+                            @$stations = Stations::select()->fetchAll()
+                            @foreach ($stations as $station):
+                                <a class="navbar-item" href="/stations/{{ $station->id }}">{{ $station->name }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link is-arrowless" href="/events">Events</a>
+                        <div class="navbar-dropdown">
+                            @$events = Events::select()->fetchAll()
+                            @foreach ($events as $event):
+                                <a class="navbar-item" href="/events/{{ $event->id }}">{{ $event->name }}</a>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
                 <div class="navbar-end">
                     <div class="navbar-item" style="display: flex; align-items: center;">
@@ -30,7 +41,15 @@
                 </div>
             @else:
                 <div class="navbar-start">
-                    <a class="navbar-item" href="/stations">Stations</a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link is-arrowless" href="/stations">Stations</a>
+                        <div class="navbar-dropdown">
+                            @$stations = Stations::select()->fetchAll()
+                            @foreach ($stations as $station):
+                                <a class="navbar-item" href="/stations/{{ $station->id }}">{{ $station->name }}</a>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
                 <div class="navbar-end">
                     <div class="navbar-item">

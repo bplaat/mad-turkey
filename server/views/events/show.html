@@ -2,6 +2,12 @@
 
 <h1 class="title">{{ $event->name }}</h1>
 
+@if ($event->active):
+    <p style="margin: 16px 0;"><span class="tag is-success">ACTIVE</span></p>
+@endif
+
+<pre style="white-space: pre-wrap;">{{ $event->trigger }}</pre>
+
 @if (Auth::check()):
     <div class="buttons" style="margin: 16px 0;">
         <a class="button is-link" href="/events/{{ $event->id }}/edit">Edit event</a>

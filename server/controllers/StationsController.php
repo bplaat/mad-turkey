@@ -48,7 +48,7 @@ class StationsController {
         $temperature_data = [];
         $humidity_data = [];
         $light_data = [];
-        $meassurements = Database::query('SELECT * FROM `measurements` WHERE `station_id` = ? AND `time` >= ? AND `time` <= ? ORDER BY `time`', $station->id, date('Y-m-d H:i:s', $day),  date('Y-m-d H:i:s', $day + 24 * 60 * 60 - 1))->fetchAll();
+        $meassurements = Database::query('SELECT * FROM `measurements` WHERE `station_id` = ? AND `time` >= ? AND `time` < ? ORDER BY `time`', $station->id, date('Y-m-d H:i:s', $day),  date('Y-m-d H:i:s', $day + 24 * 60 * 60))->fetchAll();
         foreach ($meassurements as $meassurement) {
             $labels[] = date('H:i', strtotime($meassurement->time));
             $temperature_data[] = $meassurement->temperature;
@@ -59,7 +59,7 @@ class StationsController {
         $outside_labels = [];
         $outside_temperature_data = [];
         $outside_humidity_data = [];
-        $outside_meassurements = Database::query('SELECT * FROM `outside_measurements` WHERE `station_id` = ? AND `time` >= ? AND `time` <= ? ORDER BY `time`', $station->id, date('Y-m-d H:i:s', $day),  date('Y-m-d H:i:s', $day + 24 * 60 * 60 - 1))->fetchAll();
+        $outside_meassurements = Database::query('SELECT * FROM `outside_measurements` WHERE `station_id` = ? AND `time` >= ? AND `time` < ? ORDER BY `time`', $station->id, date('Y-m-d H:i:s', $day),  date('Y-m-d H:i:s', $day + 24 * 60 * 60))->fetchAll();
         foreach ($outside_meassurements as $outside_meassurement) {
             $outside_labels[] = date('H:i', strtotime($outside_meassurement->time));
             $outside_temperature_data[] = $outside_meassurement->temperature;
