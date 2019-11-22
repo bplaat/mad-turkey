@@ -13,7 +13,7 @@
 <div id="map" style="width: 100%; height: 23vw; margin: 16px 0;"></div>
 
 <div class="has-text-centered-desktop" style="margin: 32px 0;">
-    <h2 class="subtitle is-2" style="margin-bottom: 32px;">{{ date('l d F Y', $day) }}</h2>
+    <h2 class="subtitle is-3" style="margin-bottom: 32px;">{{ date('l d F Y', $day) }}</h2>
 
     <div class="buttons has-addons is-centered">
         <a class="button" href="/stations/{{ $station->id }}/{{ date('Y-m-d', $day - 24 * 60 * 60) }}">&laquo; &nbsp;Previous day</a>

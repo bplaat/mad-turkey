@@ -1,6 +1,10 @@
 <?php
 
 class ApiController {
+    public static function runTrigger ($trigger, $absolute_time, $time, $temperature, $humidity, $light, $outside_temperature, $outside_humidity) {
+        return eval('return ' . $trigger . ';');
+    }
+
     public static function sendMeasurementGet () {
         static::sendMeasurement($_GET['key'], $_GET['temperature'], $_GET['humidity'], $_GET['light']);
     }
@@ -21,7 +25,31 @@ class ApiController {
                 'humidity' => $humidity,
                 'light' => $light
             ]);
-            echo json_encode([ 'message' => 'successful' ]);
+
+            $send_events = [];
+
+            $events = Events::select([ 'station_id' => $station->id ])->fetchAll();
+            foreach ($events as $event) {
+                $newest_outside_measurements_query = OutsideMeasurements::selectNewest($station->id);
+                if ($newest_outside_measurements_query->rowCount() == 1) {
+                    $newest_outside_measurements = $newest_outside_measurements_query->fetch();
+                    if (static::runTrigger($event->trigger, time(), time() - strtotime('today'), $temperature, $humidity, $light, $newest_outside_measurements->temperature, $newest_outside_measurements->humidity)) {
+                        Events::update($event->id, [ 'active' => true ]);
+
+                        if ($event->type == EVENT_TYPE_LED) {
+                            $send_events[] = [ 'type' => EVENT_TYPE_LED, 'duration' => $event->duration ];
+                        }
+
+                        if ($event->type == EVENT_TYPE_BEEPER) {
+                            $send_events[] = [ 'type' => EVENT_TYPE_BEEPER, 'frequency' => $event->frequency, 'duration' => $event->duration ];
+                        }
+                    } else {
+                        Events::update($event->id, [ 'active' => false ]);
+                    }
+                }
+            }
+
+            echo json_encode([ 'message' => 'successful', 'events' => $send_events ]);
             return;
         }
         http_response_code(401);

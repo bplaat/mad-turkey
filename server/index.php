@@ -18,8 +18,8 @@ function view ($_path, $_data = null) {
     unset($_data);
     ob_start();
     eval('unset($_path) ?>' . preg_replace(
-        ['/@view(.*)/', '/@(.*)/', '/{{(.*)}}/U', '/{!!(.*)!!}/U'],
-        ['<?php echo view$1 ?>', '<?php $1 ?>', '<?php echo htmlspecialchars($1, ENT_QUOTES, \'UTF-8\') ?>', '<?php echo $1 ?>'],
+        ['/@view\((.*)\)/', '/@(.*)/', '/{{(.*)}}/U', '/{!!(.*)!!}/U'],
+        ['<?php echo view($1) ?>', '<?php $1 ?>', '<?php echo htmlspecialchars($1, ENT_QUOTES, \'UTF-8\') ?>', '<?php echo $1 ?>'],
         file_get_contents(ROOT . '/views/' . str_replace('.', '/', $_path) . '.html')
     ));
     $html = ob_get_contents();

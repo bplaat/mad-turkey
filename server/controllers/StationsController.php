@@ -1,6 +1,14 @@
 <?php
 
 class StationsController {
+    protected static function generateKey () {
+        $key = md5(microtime(true) . $_SERVER['REMOTE_ADDR']);
+        if (Stations::select($key)->rowCount() == 1) {
+            return static::generateKey();
+        }
+        return $key;
+    }
+
     public static function index () {
         $stations = Stations::select()->fetchAll();
         $stations_info = [];
@@ -11,12 +19,12 @@ class StationsController {
                 'point' => [ $station->lat, $station->lng ]
             ];
 
-            $last_meassurement_query = Database::query('SELECT * FROM `measurements` WHERE `station_id` = ? ORDER BY `time` DESC LIMIT 1', $station->id);
-            if ($last_meassurement_query->rowCount() == 1) {
-                $last_meassurement = $last_meassurement_query->fetch();
-                $station_info['temperature'] = $last_meassurement->temperature;
-                $station_info['humidity'] = $last_meassurement->humidity;
-                $station_info['light'] = $last_meassurement->light;
+            $newest_meassurement_query = Measurements::selectNewest($station->id);
+            if ($newest_meassurement_query->rowCount() == 1) {
+                $newest_meassurement = $newest_meassurement_query->fetch();
+                $station_info['temperature'] = $newest_meassurement->temperature;
+                $station_info['humidity'] = $newest_meassurement->humidity;
+                $station_info['light'] = $newest_meassurement->light;
             }
             $stations_info[] = $station_info;
         }
@@ -30,7 +38,7 @@ class StationsController {
     public static function store () {
         Stations::insert([
             'name' => $_POST['name'],
-            'key' => md5(microtime(true) . $_SERVER['REMOTE_ADDR']),
+            'key' => static::generateKey(),
             'lat' => $_POST['lat'],
             'lng' => $_POST['lng']
         ]);
@@ -48,7 +56,8 @@ class StationsController {
         $temperature_data = [];
         $humidity_data = [];
         $light_data = [];
-        $meassurements = Database::query('SELECT * FROM `measurements` WHERE `station_id` = ? AND `time` >= ? AND `time` < ? ORDER BY `time`', $station->id, date('Y-m-d H:i:s', $day),  date('Y-m-d H:i:s', $day + 24 * 60 * 60))->fetchAll();
+        $meassurements = Measurements::selectDay($station->id, $day)->fetchAll();
+
         foreach ($meassurements as $meassurement) {
             $labels[] = date('H:i', strtotime($meassurement->time));
             $temperature_data[] = $meassurement->temperature;
@@ -59,7 +68,7 @@ class StationsController {
         $outside_labels = [];
         $outside_temperature_data = [];
         $outside_humidity_data = [];
-        $outside_meassurements = Database::query('SELECT * FROM `outside_measurements` WHERE `station_id` = ? AND `time` >= ? AND `time` < ? ORDER BY `time`', $station->id, date('Y-m-d H:i:s', $day),  date('Y-m-d H:i:s', $day + 24 * 60 * 60))->fetchAll();
+        $outside_meassurements = OutsideMeasurements::selectDay($station->id, $day)->fetchAll();
         foreach ($outside_meassurements as $outside_meassurement) {
             $outside_labels[] = date('H:i', strtotime($outside_meassurement->time));
             $outside_temperature_data[] = $outside_meassurement->temperature;

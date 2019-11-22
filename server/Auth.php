@@ -29,7 +29,7 @@ class Auth {
     }
 
     public static function login ($login, $password) {
-        $user_query = Database::query('SELECT * FROM users WHERE `username` = ? OR `email` = ?', $login, $login);
+        $user_query = Users::selectByLogin($login, $login);
         if ($user_query->rowCount() == 1) {
             $user = $user_query->fetch();
             if (password_verify($password, $user->password)) {
@@ -41,7 +41,7 @@ class Auth {
     }
 
     public static function register ($username, $email, $password) {
-        $user_query = Database::query('SELECT * FROM users WHERE `username` = ? OR `email` = ?', $username, $email);
+        $user_query = Users::selectByLogin($username, $email);
         if ($user_query->rowCount() == 0) {
             Users::insert([
                 'username' => $username,
