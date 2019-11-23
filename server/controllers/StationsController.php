@@ -26,6 +26,14 @@ class StationsController {
                 $station_info['humidity'] = $newest_meassurement->humidity;
                 $station_info['light'] = $newest_meassurement->light;
             }
+
+            $newest_outside_meassurement_query = OutsideMeasurements::selectNewest($station->id);
+            if ($newest_outside_meassurement_query->rowCount() == 1) {
+                $newest_outside_meassurement = $newest_outside_meassurement_query->fetch();
+                $station_info['outside_temperature'] = $newest_outside_meassurement->temperature;
+                $station_info['outside_humidity'] = $newest_outside_meassurement->humidity;
+            }
+
             $stations_info[] = $station_info;
         }
         echo view('stations.index', [ 'stations' => $stations, 'stations_info' => $stations_info ]);

@@ -22,6 +22,9 @@ class EventsController {
 
     public static function index () {
         $events = Events::select()->fetchAll();
+        foreach ($events as $event) {
+            $event->station = Stations::select($event->station_id)->fetch();
+        }
         echo view('events.index', [ 'events' => $events ]);
     }
 
@@ -47,6 +50,7 @@ class EventsController {
     }
 
     public static function show ($event) {
+        $event->station = Stations::select($event->station_id)->fetch();
         echo view('events.show', [ 'event' => $event ]);
     }
 

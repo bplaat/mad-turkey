@@ -30,6 +30,10 @@ for (var i = 0; i < stations_info.length; i++) {
             '<p style="margin: 4px 0;">Humidity: ' + stations_info[i].humidity + ' %</p>' +
             '<p style="margin: 4px 0;">Light strength: ' + stations_info[i].light + ' %</p>';
     }
+    if (stations_info[i].outside_temperature != undefined) {
+        popup_html += '<p style="margin: 4px 0;">Outside Temperature: ' + stations_info[i].outside_temperature + ' \u00B0C</p>' +
+            '<p style="margin: 4px 0;">Outside Humidity: ' + stations_info[i].outside_humidity + ' %</p>';
+    }
     L.marker(stations_info[i].point).bindPopup(popup_html).addTo(map);
 }
 </script>

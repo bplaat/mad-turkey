@@ -6,6 +6,13 @@
     <p style="margin: 16px 0;"><span class="tag is-success">ACTIVE</span></p>
 @endif
 
+@if ($event->type == EVENT_TYPE_LED):
+    <p style="margin: 16px 0;">Set the LED of "{{ $event->station->name }}" on for <code>{{ $event->duration }} ms</code>.</p>
+@endif
+@if ($event->type == EVENT_TYPE_BEEPER):
+    <p style="margin: 16px 0;">Set the beeper of "{{ $event->station->name }}" on at <code>{{ $event->frequency }} Hz</code> for <code>{{ $event->duration }} ms</code>.</p>
+@endif
+
 <pre style="white-space: pre-wrap;">{{ $event->trigger }}</pre>
 
 @if (Auth::check()):

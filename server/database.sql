@@ -26,17 +26,17 @@ CREATE TABLE `measurements` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `station_id` INT UNSIGNED NOT NULL,
     `time` DATETIME NOT NULL,
-    `temperature` DOUBLE NOT NULL,
-    `humidity` DOUBLE NOT NULL,
-    `light` DOUBLE NOT NULL
+    `temperature` FLOAT NOT NULL,
+    `humidity` FLOAT NOT NULL,
+    `light` FLOAT NOT NULL
 );
 
 CREATE TABLE `outside_measurements` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `station_id` INT UNSIGNED NOT NULL,
     `time` DATETIME NOT NULL,
-    `temperature` DOUBLE NOT NULL,
-    `humidity` DOUBLE NOT NULL
+    `temperature` FLOAT NOT NULL,
+    `humidity` FLOAT NOT NULL
 );
 
 CREATE TABLE `events` (
