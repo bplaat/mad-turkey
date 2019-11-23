@@ -17,7 +17,7 @@
 
     <div class="buttons has-addons is-centered">
         <a class="button" href="/stations/{{ $station->id }}/{{ date('Y-m-d', $day - 24 * 60 * 60) }}">&laquo; &nbsp;Previous day</a>
-        <a class="button" href="/stations/{{ $station->id }}/{{ date('Y-m-d') }}">Today</a>
+        <a class="button" href="/stations/{{ $station->id }}">Today</a>
         <a class="button" href="/stations/{{ $station->id }}/{{ date('Y-m-d', $day + 24 * 60 * 60) }}">Next day&nbsp; &raquo;</a>
     </div>
 
@@ -43,7 +43,7 @@
 
     <div class="buttons has-addons is-centered">
         <a class="button" href="/stations/{{ $station->id }}/{{ date('Y-m-d', $day - 24 * 60 * 60) }}">&laquo; &nbsp;Previous day</a>
-        <a class="button" href="/stations/{{ $station->id }}/{{ date('Y-m-d') }}">Today</a>
+        <a class="button" href="/stations/{{ $station->id }}">Today</a>
         <a class="button" href="/stations/{{ $station->id }}/{{ date('Y-m-d', $day + 24 * 60 * 60) }}">Next day&nbsp; &raquo;</a>
     </div>
 </div>
@@ -58,6 +58,19 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 L.marker(point).addTo(map);
 
+var chart_options = {
+    aspectRatio: 2.5,
+    animation: {
+        duration: 0
+    },
+    elements: {
+        point: {
+            radius: 0,
+            hitRadius: 4
+        }
+    }
+};
+
 new Chart(document.getElementById('temperature_chart').getContext('2d'), {
     type: 'line',
     data: {
@@ -70,12 +83,7 @@ new Chart(document.getElementById('temperature_chart').getContext('2d'), {
             data: JSON.parse('{!! json_encode($temperature_data, JSON_HEX_APOS) !!}')
         }]
     },
-    options: {
-        aspectRatio: 2.5,
-        animation: {
-            duration: 0
-        }
-    }
+    options: chart_options
 });
 
 new Chart(document.getElementById('humidity_chart').getContext('2d'), {
@@ -90,12 +98,7 @@ new Chart(document.getElementById('humidity_chart').getContext('2d'), {
             data: JSON.parse('{!! json_encode($humidity_data, JSON_HEX_APOS) !!}')
         }]
     },
-    options: {
-        aspectRatio: 2.5,
-        animation: {
-            duration: 0
-        }
-    }
+    options: chart_options
 });
 
 new Chart(document.getElementById('light_chart').getContext('2d'), {
@@ -110,12 +113,7 @@ new Chart(document.getElementById('light_chart').getContext('2d'), {
             data: JSON.parse('{!! json_encode($light_data, JSON_HEX_APOS) !!}')
         }]
     },
-    options: {
-        aspectRatio: 2.5,
-        animation: {
-            duration: 0
-        }
-    }
+    options: chart_options
 });
 
 new Chart(document.getElementById('outside_temperature_chart').getContext('2d'), {
@@ -130,12 +128,7 @@ new Chart(document.getElementById('outside_temperature_chart').getContext('2d'),
             data: JSON.parse('{!! json_encode($outside_temperature_data, JSON_HEX_APOS) !!}')
         }]
     },
-    options: {
-        aspectRatio: 2.5,
-        animation: {
-            duration: 0
-        }
-    }
+    options: chart_options
 });
 
 new Chart(document.getElementById('outside_humidity_chart').getContext('2d'), {
@@ -150,12 +143,7 @@ new Chart(document.getElementById('outside_humidity_chart').getContext('2d'), {
             data: JSON.parse('{!! json_encode($outside_humidity_data, JSON_HEX_APOS) !!}')
         }]
     },
-    options: {
-        aspectRatio: 2.5,
-        animation: {
-            duration: 0
-        }
-    }
+    options: chart_options
 });
 </script>
 
