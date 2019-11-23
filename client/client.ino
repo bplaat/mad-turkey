@@ -1,66 +1,53 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 #include <DHT.h>
+#include "config.h"
 
-#define DHTTYPE DHT11
-#define DHTPin 5
-#define SEND_INTERVAL 1 * 1000
+#define MEASUREMENT_INTERVAL 60 * 1000
 
-String apiKey = "0ccd5cbd10ae4dc8d9102dd5db322235";
-String ssid = "famMC";                    //"Tesla IoT";
-String password = "72923136904048253746"; // "fsL6HgjN";
+#define DHT_TYPE DHT11
+#define DHT_PIN 14 // 14 = D5 on NodeMCU
+DHT dht(DHT_PIN, DHT_TYPE);
 
-DHT dht(DHTPin, DHTTYPE);
+#define LDR_PIN A0
 
-void setup()
-{
-    Serial.begin(9600);
-    Serial.println("I'm here");
-    dht.begin();
-    Serial.println();
-    Serial.print("Connecting to ");
-    Serial.println(ssid);
-
-    //Start the wifi
-    WiFi.begin(ssid, password);
-
-    while (WiFi.status() != WL_CONNECTED)
-    {
-        delay(500);
-        Serial.print(".");
-    }
-    Serial.println("");
-    Serial.println("WiFi connected");
-}
-
-long previousTime = millis();
-void loop()
-{
-    // Long delays are not allowed
-    if (millis() > previousTime + SEND_INTERVAL)
-    {
-        sendData();
-        previousTime = millis();
-    }
-}
-
-void sendData()
-{
-    int lightStrength = map(analogRead(A0), 0, 1023, 0, 100);
-    float humidity = dht.readHumidity();
+void send_measurement() {
     float temperature = dht.readTemperature();
+    float humidity = dht.readHumidity();
+    float light = map(analogRead(LDR_PIN), 0, 1023, 0, 100);
 
     HTTPClient http;
-    String urlToAPI = "https://mad-turkey.ml/api/send_measurement?key=" + apiKey + "&temperature=" + String(temperature) + "&humidity=" + String(humidity) + "&light=" + String(lightStrength);
-    //String urlToAPI = "http://arduino.esp8266.com/stable/package_esp8266com_index.json";
-    Serial.println(urlToAPI);
+    http.begin(mad_turkey_api_url + "?key=" + mad_turkey_api_key + "&temperature=" + String(temperature) + "&humidity=" + String(humidity) + "&light=" + String(light), mad_turkey_api_https_fingerprint);
+    int httpCode = http.GET();
+    if (httpCode == HTTP_CODE_OK) {
+        Serial.print("HTTP request response: ");
+        Serial.println(http.getString());
+    } else {
+        Serial.print("HTTP request failed, error: ");
+        Serial.println(http.errorToString(httpCode));
+    }
+    http.end();
+}
 
-    http.begin(urlToAPI);
-    int httpCode = http.GET();         //Send the request
-    String payload = http.getString(); //Get the response payload
+void setup() {
+    Serial.begin(9600);
+    dht.begin();
+    Serial.print("\nConnecting to ");
+    Serial.print(wifi_ssid);
+    Serial.println("...");
+    WiFi.begin(wifi_ssid, wifi_password);
+    while (WiFi.status() != WL_CONNECTED) {
+        Serial.print(".");
+        delay(500);
+    }
+    Serial.println("\nConnected");
+    send_measurement();
+}
 
-    Serial.println(httpCode); //Print HTTP return code
-    Serial.println(payload);  //Print request response payload
-
-    http.end(); //Close connection
+uint32_t send_time = millis();
+void loop() {
+    if (millis() - send_time > MEASUREMENT_INTERVAL) {
+        send_time = millis();
+        send_measurement();
+    }
 }

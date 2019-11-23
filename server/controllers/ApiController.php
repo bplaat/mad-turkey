@@ -15,6 +15,7 @@ class ApiController {
 
     public static function sendMeasurement ($key, $temperature, $humidity, $light) {
         $station_query = Stations::select([ 'key' => $key ]);
+        header('Access-Control-Allow-Origin: *');
         header('Content-Type: application/json');
         if ($station_query->rowCount() == 1) {
             $station = $station_query->fetch();

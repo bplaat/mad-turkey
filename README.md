@@ -20,3 +20,7 @@ $light = Current measured light in procent
 $outside_temperature = Current outside measured temperature in procent
 $outside_humidity = Current outside measured humidity in procent
 ```
+
+## Clients
+When you want to upload your code to the client you need to rename `config.example.h`
+to `config.h` and fill in your client detials to make a connection with the server.
