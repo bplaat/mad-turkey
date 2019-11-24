@@ -64,7 +64,7 @@ class StationsController {
         $temperature_data = [];
         $humidity_data = [];
         $light_data = [];
-        $meassurements = Measurements::selectDay($station->id, $day)->fetchAll();
+        $meassurements = Measurements::selectByDay($station->id, $day)->fetchAll();
 
         foreach ($meassurements as $meassurement) {
             $labels[] = date('H:i', strtotime($meassurement->time));
@@ -76,7 +76,7 @@ class StationsController {
         $outside_labels = [];
         $outside_temperature_data = [];
         $outside_humidity_data = [];
-        $outside_meassurements = OutsideMeasurements::selectDay($station->id, $day)->fetchAll();
+        $outside_meassurements = OutsideMeasurements::selectByDay($station->id, $day)->fetchAll();
         foreach ($outside_meassurements as $outside_meassurement) {
             $outside_labels[] = date('H:i', strtotime($outside_meassurement->time));
             $outside_temperature_data[] = $outside_meassurement->temperature;
