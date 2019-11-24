@@ -11,7 +11,7 @@ class EventsController {
             $light = 0;
             $outside_temperature = 0;
             $outside_humidity = 0;
-            eval('unset($_trigger); return ' . $trigger . ';');
+            eval('unset($_trigger); return ' . $_trigger . ';');
         } catch (ParseError $error) {
             return false;
         }

@@ -2,7 +2,7 @@
 
 class ApiController {
     public static function runTrigger ($_trigger, $absolute_time, $time, $temperature, $humidity, $light, $outside_temperature, $outside_humidity) {
-        return eval('unset($_trigger); return ' . $trigger . ';');
+        return eval('unset($_trigger); return ' . $_trigger . ';');
     }
 
     public static function sendMeasurementGet () {
