@@ -9,7 +9,7 @@ class SettingsController {
                 $active_sessions[] = $session;
             }
         }
-        echo view('auth.settings', [ 'sessions' => $active_sessions ]);
+        echo view('auth.settings', [ 'active_sessions' => $active_sessions ]);
     }
 
     public static function changeDetails () {
@@ -27,14 +27,13 @@ class SettingsController {
 
     public static function changePassword () {
         if (
+            password_verify($_POST['old_password'], Auth::user()->password) &&
             $_POST['new_password'] == $_POST['confirm_new_password']
         ) {
-            if (password_verify($_POST['old_password'], Auth::user()->password)) {
-                Users::update(Auth::id(), [
-                    'password' => password_hash($_POST['new_password'], PASSWORD_DEFAULT)
-                ]);
-                Router::redirect('/settings');
-            }
+            Users::update(Auth::id(), [
+                'password' => password_hash($_POST['new_password'], PASSWORD_DEFAULT)
+            ]);
+            Router::redirect('/settings');
         }
         Router::back();
     }
@@ -49,8 +48,8 @@ class SettingsController {
 
     public static function deleteAccount () {
         Auth::revokeSession($_COOKIE[SESSION_COOKIE_NAME]);
-        Users::delete(Auth::id());
         Sessions::delete([ 'user_id' => Auth::id() ]);
+        Users::delete(Auth::id());
         Router::redirect('/');
     }
 }

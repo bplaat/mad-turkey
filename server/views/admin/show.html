@@ -1,0 +1,24 @@
+@view('header', [ 'title' => $user->username . ' - Admin' ])
+
+<h1 class="title">{{ $user->username }}</h1>
+
+<p style="margin: 16px 0;">
+    @if ($user->role == USER_ROLE_VIEWER):
+        <span class="tag is-success">VIEWER</span>
+    @endif
+    @if ($user->role == USER_ROLE_MODERATOR):
+        <span class="tag is-info">MODERATOR</span>
+    @endif
+    @if ($user->role == USER_ROLE_ADMIN):
+        <span class="tag is-danger">ADMIN</span>
+    @endif
+</p>
+
+<p><a class="tag" href="mailto:{{ $user->email }}">{{ $user->email }}</a></p>
+
+<div class="buttons" style="margin: 16px 0;">
+    <a class="button is-link" href="/admin/{{ $user->id }}/edit">Edit user</a>
+    <a class="button is-danger" href="/admin/{{ $user->id }}/delete">Delete user</a>
+</div>
+
+@view('footer')

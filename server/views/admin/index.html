@@ -1,0 +1,31 @@
+@view('header', [ 'title' => 'Admin' ])
+
+<h1 class="title">Admin</h1>
+
+<div class="columns is-multiline">
+    @foreach ($users as $user):
+        <div class="column is-one-third">
+            <div class="box" style="height: 100%">
+                <h2 class="title is-4">
+                    <a href="/admin/{{ $user->id }}">{{ $user->username }}</a>
+                    @if ($user->role == USER_ROLE_VIEWER):
+                        <span class="tag is-pulled-right is-success">VIEWER</span>
+                    @endif
+                    @if ($user->role == USER_ROLE_MODERATOR):
+                        <span class="tag is-pulled-right is-info">MODERATOR</span>
+                    @endif
+                    @if ($user->role == USER_ROLE_ADMIN):
+                        <span class="tag is-pulled-right is-danger">ADMIN</span>
+                    @endif
+                </h2>
+                <p><a class="tag" href="mailto:{{ $user->email }}">{{ $user->email }}</a></p>
+            </div>
+        </div>
+    @endforeach
+</div>
+
+<div class="buttons">
+    <a class="button is-link" href="/admin/create">Create user</a>
+</div>
+
+@view('footer')

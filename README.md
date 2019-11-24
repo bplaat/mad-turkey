@@ -15,7 +15,6 @@ You can connect multiple stations to the server.
 You can script events in PHP with these variables:
 
 ```
-$trigger = The event trigger PHP code
 $absolute_time = Seconds that has passed since 1 January 1970 a.k.a unix epoch
 $time = Seconds that has passed since the start of the day at 00:00:00
 $temperature = Current measured temperature in degrees Celcius

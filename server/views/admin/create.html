@@ -1,8 +1,8 @@
-@view('header', [ 'title' => 'Register' ])
+@view('header', [ 'title' => 'Create a new user - Admin' ])
 
-<h1 class="title">Register</h1>
+<h1 class="title">Create a new user</h1>
 
-<form method="post">
+<form method="post" action="/admin">
     <div class="field">
         <label class="label" for="username">Username</label>
         <input class="input" type="text" id="username" name="username" autofocus required>
@@ -20,7 +20,15 @@
         <input class="input" type="password" id="confirm_password" name="confirm_password" required>
     </div>
     <div class="field">
-        <button class="button is-link" type="submit">Register</button>
+        <label class="label" for="role">Role</label>
+        <select class="input" id="role" name="role" required>
+            <option value="{{ USER_ROLE_VIEWER }}">Viewer</option>
+            <option value="{{ USER_ROLE_MODERATOR }}">Moderator</option>
+            <option value="{{ USER_ROLE_ADMIN }}">Admin</option>
+        </select>
+    </div>
+    <div class="field">
+        <button class="button is-link" type="submit">Create user</button>
     </div>
 </form>
 

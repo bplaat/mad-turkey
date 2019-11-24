@@ -1,7 +1,7 @@
 <?php
 
 class EventsController {
-    public static function testTrigger ($trigger) {
+    public static function testTrigger ($_trigger) {
         ob_start();
         try {
             $absolute_time = 0;
@@ -11,7 +11,7 @@ class EventsController {
             $light = 0;
             $outside_temperature = 0;
             $outside_humidity = 0;
-            eval('return ' . $trigger . ';');
+            eval('unset($_trigger); return ' . $trigger . ';');
         } catch (ParseError $error) {
             return false;
         }

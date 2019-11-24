@@ -34,7 +34,9 @@
                     <div class="navbar-item">
                         <div class="buttons">
                             <a class="button" href="/settings">Settings</a>
-                            <a class="button is-link" href="/auth/register">Register</a>
+                            @if (Auth::user()->role == USER_ROLE_ADMIN):
+                                <a class="button is-link" href="/admin">Admin</a>
+                            @endif
                             <a class="button is-black" href="/auth/logout">Logout</a>
                         </div>
                     </div>

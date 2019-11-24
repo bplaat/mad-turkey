@@ -9,17 +9,6 @@ class Auth {
         return $session;
     }
 
-    public static function createSession ($user_id) {
-        $session = static::generateSession();
-        setcookie(SESSION_COOKIE_NAME, $session, time() + SESSION_DURATION, '/');
-        $_COOKIE[SESSION_COOKIE_NAME] = $session;
-        Sessions::insert([
-            'session' => $session,
-            'user_id' => $user_id,
-            'expires_at' => date('Y-m-d H:i:s', time() + SESSION_DURATION)
-        ]);
-    }
-
     public static function revokeSession ($session) {
         Sessions::update($session, [ 'expires_at' => date('Y-m-d H:i:s') ]);
         if ($_COOKIE[SESSION_COOKIE_NAME] == $session) {
@@ -33,23 +22,16 @@ class Auth {
         if ($user_query->rowCount() == 1) {
             $user = $user_query->fetch();
             if (password_verify($password, $user->password)) {
-                static::createSession($user->id);
+                $session = static::generateSession();
+                setcookie(SESSION_COOKIE_NAME, $session, time() + SESSION_DURATION, '/');
+                $_COOKIE[SESSION_COOKIE_NAME] = $session;
+                Sessions::insert([
+                    'session' => $session,
+                    'user_id' => $user->id,
+                    'expires_at' => date('Y-m-d H:i:s', time() + SESSION_DURATION)
+                ]);
                 return true;
             }
-        }
-        return false;
-    }
-
-    public static function register ($username, $email, $password) {
-        $user_query = Users::selectByLogin($username, $email);
-        if ($user_query->rowCount() == 0) {
-            Users::insert([
-                'username' => $username,
-                'email' => $email,
-                'password' => password_hash($password, PASSWORD_DEFAULT)
-            ]);
-            static::createSession(Database::lastInsertId());
-            return true;
         }
         return false;
     }
@@ -69,8 +51,7 @@ class Auth {
                     static::$id = $session->user_id;
                     return;
                 } else {
-                    setcookie(SESSION_COOKIE_NAME, '', time() - 3600, '/');
-                    unset($_COOKIE[SESSION_COOKIE_NAME]);
+                    static::revokeSession($session->session);
                 }
             }
         }

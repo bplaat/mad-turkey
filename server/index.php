@@ -27,10 +27,6 @@ function view ($_path, $_data = null) {
     return $html;
 }
 
-function cut ($string, $length) {
-    return mb_strlen($string) > $length ? mb_substr($string, 0, $length) . '...' : $string;
-}
-
 require_once ROOT . '/config.php';
 
 Database::connect(DATABASE_DSN, DATABASE_USER, DATABASE_PASSWORD);

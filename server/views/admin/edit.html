@@ -1,0 +1,35 @@
+@view('header', [ 'title' => 'Edit - ' . $user->username . ' - Users' ])
+
+<h1 class="title">Edit {{ $user->username }}</h1>
+
+<form method="post" action="/admin/{{ $user->id }}">
+    <div class="field">
+        <label class="label" for="username">Username</label>
+        <input class="input" type="text" id="username" name="username" value="{{ $user->username }}" autofocus required>
+    </div>
+    <div class="field">
+        <label class="label" for="email">Email address</label>
+        <input class="input" type="email" id="email" name="email" value="{{ $user->email }}" required>
+    </div>
+    <div class="field">
+        <label class="label" for="role">Role</label>
+        <select class="input" id="role" name="role" required>
+            <option value="{{ USER_ROLE_VIEWER }}" {{ $user->role == USER_ROLE_VIEWER ? 'selected' : '' }}>Viewer</option>
+            <option value="{{ USER_ROLE_MODERATOR }}" {{ $user->role == USER_ROLE_MODERATOR ? 'selected' : '' }}>Moderator</option>
+            <option value="{{ USER_ROLE_ADMIN }}" {{ $user->role == USER_ROLE_ADMIN ? 'selected' : '' }}>Admin</option>
+        </select>
+    </div>
+    <div class="field">
+        <label class="label" for="new_password">New password (leave empty if you don't want to change)</label>
+        <input class="input" type="password" id="new_password" name="new_password">
+    </div>
+    <div class="field">
+        <label class="label" for="confirm_new_password">Confirm new password</label>
+        <input class="input" type="password" id="confirm_new_password" name="confirm_new_password">
+    </div>
+    <div class="field">
+        <button class="button is-link" type="submit">Edit user</button>
+    </div>
+</form>
+
+@view('footer')

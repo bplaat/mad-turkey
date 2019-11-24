@@ -10,7 +10,7 @@
 
 <div id="map" style="width: 100%; height: 40vw; margin: 16px 0;"></div>
 
-@if (Auth::check()):
+@if (Auth::user()->role >= USER_ROLE_MODERATOR):
     <div class="buttons">
         <a class="button is-link" href="/stations/create">Create station</a>
     </div>

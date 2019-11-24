@@ -2,7 +2,7 @@
 
 <h1 class="title">{{ $station->name }}</h1>
 
-@if (Auth::check()):
+@if (Auth::user()->role >= USER_ROLE_MODERATOR):
     <p style="margin: 16px 0;"><code>{{ $station->key }}</code></p>
     <div class="buttons">
         <a class="button is-link" href="/stations/{{ $station->id }}/edit">Edit station</a>

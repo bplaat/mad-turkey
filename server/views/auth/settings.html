@@ -37,8 +37,8 @@
 </form>
 
 <div class="box">
-    <h2 class="title is-4">Sessions</h2>
-    @foreach ($sessions as $session):
+    <h2 class="title is-4">Active sessions</h2>
+    @foreach ($active_sessions as $session):
         <div class="box">
             <h1 class="title is-5">
                 <code>{{ $session->session }}</code>

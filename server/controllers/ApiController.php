@@ -1,8 +1,8 @@
 <?php
 
 class ApiController {
-    public static function runTrigger ($trigger, $absolute_time, $time, $temperature, $humidity, $light, $outside_temperature, $outside_humidity) {
-        return eval('return ' . $trigger . ';');
+    public static function runTrigger ($_trigger, $absolute_time, $time, $temperature, $humidity, $light, $outside_temperature, $outside_humidity) {
+        return eval('unset($_trigger); return ' . $trigger . ';');
     }
 
     public static function sendMeasurementGet () {

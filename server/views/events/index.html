@@ -24,7 +24,7 @@
     @endforeach
 </div>
 
-@if (Auth::check()):
+@if (Auth::user()->role >= USER_ROLE_MODERATOR):
     <div class="buttons">
         <a class="button is-link" href="/events/create">Create event</a>
     </div>

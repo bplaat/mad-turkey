@@ -2,10 +2,11 @@ CREATE TABLE `users` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     `username` VARCHAR(191) UNIQUE NOT NULL,
     `email` VARCHAR(191) UNIQUE NOT NULL,
-    `password` VARCHAR(191) NOT NULL
+    `password` VARCHAR(191) NOT NULL,
+    `role` TINYINT UNSIGNED NOT NULL
 );
 
-INSERT INTO `users` (`username`, `email`, `password`) VALUES ('bplaat', 'bastiaan.v.d.plaat@gmail.com', '$2y$10$Nku/64sflag3AQ1uPv5PY.bGA8V8y14biZ2RWnfRsybqYjlzxUQ9a');
+INSERT INTO `users` (`username`, `email`, `password`, `role`) VALUES ('bplaat', 'bastiaan.v.d.plaat@gmail.com', '$2y$10$Nku/64sflag3AQ1uPv5PY.bGA8V8y14biZ2RWnfRsybqYjlzxUQ9a', 2);
 
 CREATE TABLE `sessions` (
     `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
