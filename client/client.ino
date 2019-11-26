@@ -6,7 +6,7 @@
 #define MEASUREMENT_INTERVAL 60 * 1000
 
 #define DHT_TYPE DHT11
-#define DHT_PIN 14 // 14 = D5 on NodeMCU
+#define DHT_PIN D5
 DHT dht(DHT_PIN, DHT_TYPE);
 
 #define LDR_PIN A0
