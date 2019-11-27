@@ -4,8 +4,8 @@
 #include <ArduinoJson.h>
 #include "config.h"
 
-#define EVENT_TYPE_LED 1
-#define EVENT_TYPE_BEEPER 2
+#define EVENT_TYPE_LED 0
+#define EVENT_TYPE_BEEPER 1
 
 #define DHT_TYPE DHT11
 #define DHT_PIN D1
@@ -13,7 +13,7 @@ DHT dht(DHT_PIN, DHT_TYPE);
 
 #define LED_PIN D2
 uint32_t led_time = millis();
-uint32_t led_duration;
+uint32_t led_duration = 0;
 #define BEEPER_PIN D3
 #define LDR_PIN A0
 
@@ -82,6 +82,8 @@ void retrieve_events(String json) {
 void setup() {
     Serial.begin(9600);
     dht.begin();
+    pinMode(LED_PIN, OUTPUT);
+    pinMode(BEEPER_PIN, OUTPUT);
     Serial.print("\nConnecting to ");
     Serial.print(wifi_ssid);
     Serial.println("...");
@@ -91,7 +93,7 @@ void setup() {
         delay(500);
     }
     Serial.println("\nConnected");
-    retrieve_event(send_measurement());
+    retrieve_events(send_measurement());
 }
 
 void loop() {
