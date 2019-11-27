@@ -1,27 +1,27 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 #include <DHT.h>
-#include "config.h"
 #include <ArduinoJson.h>
+#include "config.h"
 
 #define MEASUREMENT_INTERVAL 60 * 1000
 
 #define DHT_TYPE DHT11
-#define DHT_PIN D0 //  D1 on NodeMCU
-#define LED_PIN D2  // D7 on NodeMCU
-#define BUZZER_PIN D3 // D3 on NodeMCU
+#define DHT_PIN D1
+#define LED_PIN D2  
+#define BUZZER_PIN D3
 #define LDR_PIN A0
 
 DHT dht(DHT_PIN, DHT_TYPE);
 
 const size_t capacity = 256;
-DynamicJsonDocument doc(capacity);
-String json;
+DynamicJsonDocument json_doc(capacity);
 int duration_led;
 int duration_buzzer;
 int freq_buzzer;
 
-void send_measurement() {
+String send_measurement() {
+    String json;
     float temperature = dht.readTemperature();
     float humidity = dht.readHumidity();
     float light = map(analogRead(LDR_PIN), 0, 1023, 0, 100);
@@ -38,48 +38,48 @@ void send_measurement() {
         Serial.println(http.errorToString(httpCode));
     }
     http.end();
+    return json;
 }
 
-void retrieve_event() {
-  DeserializationError error = deserializeJson(doc, json);
+void retrieve_event(String json) {
+    duration_led = 0;
+    duration_buzzer = 0;
+    freq_buzzer = 0;
 
-  // Test if parsing succeeds.
-  if (error) {
-    Serial.print(F("deserializeJson() failed: "));
-    Serial.println(error.c_str());
-    return;
-  }
+    DeserializationError error = deserializeJson(json_doc, json);
 
-  const char* message = doc["message"];
-  Serial.println(message);
-  
-  JsonArray events = doc["events"];
-
-  for (uint8_t i = 0; i < events.size(); i++) {
-    if (events[i]["type"] == 0) {
-      duration_led = events[i]["duration"];
+    // Test if parsing succeeds.
+    if (error) {
+        Serial.print(F("deserializeJson() failed: "));
+        Serial.println(error.c_str());
+        return;
     }
 
-    if (events[i]["type"] == 1) {
-      duration_buzzer = events[i]["duration"];
-      freq_buzzer = events[i]["frequency"];
+    const char* message = json_doc["message"];
+    Serial.println(message);
+    
+    JsonArray events = json_doc["events"];
+
+    for (uint8_t i = 0; i < events.size(); i++) {
+        if (events[i]["type"] == 0) {
+        duration_led = events[i]["duration"];
+        }
+
+        if (events[i]["type"] == 1) {
+        duration_buzzer = events[i]["duration"];
+        freq_buzzer = events[i]["frequency"];
+        }
     }
-  }
 
-  if (duration_led > 0) {
-    digitalWrite(LED_PIN, HIGH);
-    uint32_t start_time = millis();
-
-    if (millis() - start_time > duration_led) {
-      start_time = millis();
-      digitalWrite(LED_PIN, LOW);
+    if (duration_led > 0) {
+        digitalWrite(LED_PIN, HIGH);
+        uint32_t start_time = millis();
     }
 
     if (duration_buzzer > 0 && freq_buzzer > 0) {
-      tone(BUZZER_PIN, freq_buzzer, duration_buzzer);
+        tone(BUZZER_PIN, freq_buzzer, duration_buzzer);
     }
 
-  }
 }
 
 void setup() {
@@ -94,15 +94,19 @@ void setup() {
         delay(500);
     }
     Serial.println("\nConnected");
-    send_measurement();
-    retrieve_event();
+    retrieve_event(send_measurement());
 }
 
 uint32_t send_time = millis();
+uint32_t start_time = millis();
 void loop() {
     if (millis() - send_time > MEASUREMENT_INTERVAL) {
         send_time = millis();
-        send_measurement();
-        retrieve_event();
+        retrieve_event(send_measurement());
+    }
+
+    if (millis() - start_time > duration_led) {
+      start_time = millis();
+      digitalWrite(LED_PIN, LOW);
     }
 }
