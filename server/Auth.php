@@ -12,7 +12,7 @@ class Auth {
     public static function revokeSession ($session) {
         Sessions::update($session, [ 'expires_at' => date('Y-m-d H:i:s') ]);
         if ($_COOKIE[SESSION_COOKIE_NAME] == $session) {
-            setcookie(SESSION_COOKIE_NAME, '', time() - 3600, '/');
+            setcookie(SESSION_COOKIE_NAME, '', time() - 3600);
             unset($_COOKIE[SESSION_COOKIE_NAME]);
         }
     }
@@ -23,7 +23,7 @@ class Auth {
             $user = $user_query->fetch();
             if (password_verify($password, $user->password)) {
                 $session = static::generateSession();
-                setcookie(SESSION_COOKIE_NAME, $session, time() + SESSION_DURATION, '/');
+                setcookie(SESSION_COOKIE_NAME, $session, time() + SESSION_DURATION, '/', $_SERVER['HTTP_HOST'], isset($_SERVER['HTTPS']), true);
                 $_COOKIE[SESSION_COOKIE_NAME] = $session;
                 Sessions::insert([
                     'session' => $session,
