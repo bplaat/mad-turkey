@@ -106,7 +106,7 @@ new Chart(document.getElementById('light_chart').getContext('2d'), {
     data: {
         labels: JSON.parse('{!! json_encode($labels, JSON_HEX_APOS) !!}'),
         datasets: [{
-            label: 'Light strength (%)',
+            label: 'Light strength (lux)',
             backgroundColor: '#999',
             borderColor: '#333',
             fill: false,
