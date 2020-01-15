@@ -20,6 +20,13 @@ Here below is a breadboard scheme of the client:
 
 ![Client Fritzing scheme](client/scheme.png)
 
+## Client Calibration
+You can use a light meter to calibrate your ldr values to lux units. You do this by measuring the value of the ldr under different light intensities. Then you measure the same light intensity with the light meter in lux. You do this multiple times for better accuracy. After you are done measuring, you compare the values in a graph to get a formula.
+
+*Graph example:*
+
+![Lux Graph](client/calibrationGraph.png)
+
 ## Server
 When you want to install the server you need to rename `config.example.php`
 to `config.php` and fill in your server details to make a connection with the database.
