@@ -17,6 +17,8 @@ uint32_t led_duration = 0;
 #define BEEPER_PIN D3
 #define LDR_PIN A0
 
+#define CALIBRATION_BASE 1.5711
+#define CALIBRATION_EXP 0.0055
 #define MEASUREMENT_INTERVAL 60 * 1000
 uint32_t send_time = millis();
 
@@ -26,7 +28,7 @@ String send_measurement() {
     String json;
     float temperature = dht.readTemperature();
     float humidity = dht.readHumidity();
-    float light = map(analogRead(LDR_PIN), 0, 1023, 0, 100);
+    float light = pow(CALIBRATION_BASE * M_E, CALIBRATION_EXP * (double)analogRead(LDR_PIN));
 
     HTTPClient http;
     http.begin(mad_turkey_api_url + "?key=" + mad_turkey_api_key + "&temperature=" + String(temperature) + "&humidity=" + String(humidity) + "&light=" + String(light), mad_turkey_api_https_fingerprint);

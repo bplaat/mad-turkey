@@ -32,6 +32,8 @@ We have also designed a simple case which you can lazer cut in a plywood board.
 
 In the first pass you need to cut the blue strokes and in the second pass you need to cut the red strokes.
 
+After you are done cutting, you can glue the pieces together with wood glue.
+
 ![The client case](client/case.png)
 
 ## Server
