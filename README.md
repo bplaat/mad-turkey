@@ -27,6 +27,13 @@ You can use a light meter to calibrate your ldr values to lux units. You do this
 
 ![Lux Graph](client/calibrationGraph.png)
 
+## Client case
+We have also designed a simple case which you can lazer cut in a plywood board.
+
+In the first pass you need to cut the blue strokes and in the second pass you need to cut the red strokes.
+
+![The client case](client/case.png)
+
 ## Server
 When you want to install the server you need to rename `config.example.php`
 to `config.php` and fill in your server details to make a connection with the database.
