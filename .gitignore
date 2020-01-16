@@ -1,2 +1,4 @@
 client/config.h
+client/output
 server/config.php
+

@@ -17,7 +17,7 @@ uint32_t led_duration = 0;
 #define BEEPER_PIN D3
 #define LDR_PIN A0
 
-#define CALIBRATION_BASE 1.5711
+#define CALIBRATION_BASE 1.0
 #define CALIBRATION_EXP 0.0055
 #define MEASUREMENT_INTERVAL 60 * 1000
 uint32_t send_time = millis();
@@ -36,10 +36,10 @@ String send_measurement() {
     if (httpCode == HTTP_CODE_OK) {
         json = http.getString();
         Serial.print("HTTP request response: ");
-        Serial.println(http.getString());
+       Serial.println(http.getString());
     } else {
-        Serial.print("HTTP request failed, error: ");
-        Serial.println(http.errorToString(httpCode));
+       Serial.print("HTTP request failed, error: ");
+       Serial.println(http.errorToString(httpCode));
     }
     http.end();
 
