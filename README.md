@@ -60,7 +60,7 @@ $absolute_time = Seconds that has passed since 1 January 1970 a.k.a unix epoch
 $time = Seconds that has passed since the start of the day at 00:00:00
 $temperature = Current measured temperature in degrees Celcius
 $humidity = Current measured humidity in procent
-$light = Current measured light in procent
+$light = Current measured light in lux
 $outside_temperature = Current outside measured temperature in procent
 $outside_humidity = Current outside measured humidity in procent
 ```
